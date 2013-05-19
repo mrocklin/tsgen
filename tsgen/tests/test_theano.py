@@ -8,14 +8,17 @@ import numpy as np
 sigma, beta, rho = 10., 8./3, 28.
 
 def pack(*args):
+    """ Pack variables into numpy object array
+
+    Theano variables are iterable so asarray is confused when used normally
+    """
     result = np.empty(len(args), dtype=object)
     for i, arg in enumerate(args):
         result[i] = arg
     return result
 
-def lorenz_f(t, state):
+def lorenz_f(t, (x, y, z)):
     """ Lorenz Attractor '67 """
-    x, y, z = state[0], state[1], state[2]
     return pack(sigma*(y-x), x*(rho-z) - y, -beta*z + x*y)
 
 x, y, z = map(theano.tensor.scalar, 'xyz')
