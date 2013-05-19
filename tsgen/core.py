@@ -1,9 +1,15 @@
 from util import is_square
 
-def get_row(X, i):
-    return X[i, :i]
-
 def butcher_explicit(A, b, f, h, t, y):
+    """ Evolve forward with time stepping method
+
+    A:  Butcher array (square lower triangular matrix)
+    b:  Butcher vector
+    f:  Derivative function :: (time, state -> direction)
+    h:  Time step
+    t:  Current time
+    y:  state
+    """
     assert is_square(A)
     assert len(A) == len(b) - 1
 
@@ -19,7 +25,8 @@ def butcher_explicit(A, b, f, h, t, y):
 
 # (dt, t, state -> state), dt, time, time, state -> state
 def evolve(step, dt, start, end, state):
-    """
+    """ Repeat a stepping function through time (simple)
+
     step :: dt, time, state -> state
     """
     time = start
