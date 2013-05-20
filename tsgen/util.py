@@ -8,7 +8,7 @@ import theano
 
 def theano_simplify(fgraph):
     """ Simplify a Theano Computation """
-    mode = theano.compile.get_default_mode().excluding("fusion")
+    mode = theano.compile.get_default_mode()
     fgraph = fgraph.clone()
     mode.optimizer.optimize(fgraph)
     return fgraph
