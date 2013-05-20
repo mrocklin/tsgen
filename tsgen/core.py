@@ -1,4 +1,5 @@
 from util import is_square
+from operator import mul
 
 def butcher_explicit(A, b, f, h, t, y):
     """ Evolve forward with time stepping method
@@ -15,13 +16,13 @@ def butcher_explicit(A, b, f, h, t, y):
 
     ks = [h*f(t, y)]
 
-    for row in A:
+    for i, row in enumerate(A):
         c = sum(row)
         time = t + c*h
-        delta = sum(a*k for a, k in zip(row, ks))
+        delta = sum(map(mul, row[:i+1], ks))
         ks.append(h * f(time, y + delta))
 
-    return y + sum(bi*k for bi, k in zip(b, ks))
+    return y + sum(map(mul, b, ks))
 
 # (dt, t, state -> state), dt, time, time, state -> state
 def evolve(step, dt, start, end, state):
