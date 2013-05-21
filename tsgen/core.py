@@ -16,10 +16,10 @@ def butcher_explicit(A, b, f, h, t, y):
 
     ks = [h*f(t, y)]
 
-    for i, row in enumerate(A):
+    for row in A:
         c = sum(row)
         time = t + c*h
-        delta = sum(map(mul, row[:i+1], ks))
+        delta = sum(map(mul, row[:len(ks)], ks))
         ks.append(h * f(time, y + delta))
 
     return y + sum(map(mul, b, ks))
